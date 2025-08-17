@@ -1,10 +1,10 @@
 import argparse
 
 parser = argparse.ArgumentParser(prog='Linux CLI cheatsheet', description='display a linux command cheatsheet')
-parser.add_argument("--commands", help="display all the available linux commands available in the linux cheatsheet")
+parser.add_argument("commands", default=argparse.SUPPRESS, help="display all the available linux commands available in the linux cheatsheet")
 parser.add_argument("-v", "--verbose", action="store_true", help="increases output verbosity")
 parser.add_argument("commandDescription", help="describe the particular command provided as an argument")
-parser.add_argument("-ci", "--commandInput", help="take the command as input, to describe it")
+parser.add_argument("commandInput", help="take the command as input, to describe it")
 args = parser.parse_args()
 
 commands_map = {
@@ -44,4 +44,5 @@ if args.verbose:
     print("Since verbosity was been turned on")
 
 if args.commandDescription and args.commandInput:
-    display_command_description(command_input=args.commandInput)
+    if args.commands: display_command_description(command_input=args.commandInput)
+    else: SystemExit.code(2)
