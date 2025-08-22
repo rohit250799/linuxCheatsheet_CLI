@@ -1,9 +1,11 @@
 import argparse
+import subprocess
 
 parser = argparse.ArgumentParser(prog='Linux CLI cheatsheet', description='display a linux command cheatsheet')
 parser.add_argument("commands", default=argparse.SUPPRESS, help="display all the available linux commands available in the linux cheatsheet")
 parser.add_argument("-v", "--verbose", action="store_true", help="increases output verbosity")
 parser.add_argument("-cdes","--commandDescription", help="describe the particular command provided as an argument")
+parser.add_argument('-ge','--getExample', help="Get an example of how the command works")
 args = parser.parse_args()
 
 commands_map = {
@@ -35,7 +37,19 @@ def display_all_commands_verbose() -> None:
     
     return
 
-if args.commands and not args.verbose and not args.commandDescription:
+def display_command_example(command_input: str) -> None: #now only working for ls command, others to be added soon
+    if not command_input or command_input not in commands_map:
+        print('Command input invalid')
+        return
+    
+    if command_input == 'cd':
+        pass 
+    
+    commandOutput = subprocess.run([command_input], capture_output=True, text=True)
+    print(commandOutput.stdout)
+    return
+
+if args.commands and not args.verbose and not args.commandDescription and not args.getExample:
     display_all_commands()    
 
 if args.verbose:
@@ -45,3 +59,7 @@ if args.verbose:
 if args.commandDescription:
     display_command_description(args.commandDescription)
     print('Description text displayed in the above line')
+
+if args.getExample:
+    display_command_example(args.getExample)
+    print('The inplemented output has been shown above')
