@@ -1,0 +1,22 @@
+ls:
+  description: "List directory contents"
+  examples:
+    - "ls -l  # long format listing"
+    - "ls -lh # human-readable sizes"
+    - "ls -a  # show hidden files"
+  category: "file management"
+
+cd:
+  description: "Change directory"
+  examples:
+    - "cd  ~  #move to home directory"
+    - "cd ~/Downloads   #move to Downloads directory inside the home directory"
+    - "cd ../.  #move back to parent directory" 
+  category: "navigation"
+
+rm:
+  description: "Delete file or directory"
+  examples:
+    - "rm test.txt  # delete file test.txt"
+    - "rm -r testDir/ # delete testDir directory recursivey"
+  category: "file management"
