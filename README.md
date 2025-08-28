@@ -18,12 +18,11 @@ As the project progresses, new commands will be appended to the cheatsheet CLI i
 
 How to use this from the terminal:
 
-1. on running: python3 main.py commands from the terminal, a simple list of all the commands in the cheatsheet should be shown
-2. on running: python3 main.py commands --verbose or -v from the terminal, a list of all the commands in the cheatsheet is 
-to be shown with more details (like help text) 
-3. on runnung: python3 main.py commands -cdes mkdir, the command description is printed out in the terminal (if command is present in the cheetsheet),
-else an unrecognized arguments message is printed out. In this context, 'mkdir' is the command input by the user. You can replace it with any other linux commands to test.
-4. on running: python3 main.py commands -h, the user can get a generalised description about the CLI tool - like how to use it and in which order to put down different
-arguments.  
+1. on running: python3 main.py -h or python3 main.py --help, the user can get a generalised description about the CLI tool
+2. on running: python3 main.py commands from the terminal, the total number of commands stored in the cheatsheet is displayed
+3. on runnign: python3 main.py categories, the number of categories is displayed in the terminal 
+4. on running: python3 main.py commands -all, all the commands in the cheatsheet are displayed in the terminal   
+
+![Displaying all commands in terminal](screenshots/display_all_commands.png)
 
 
