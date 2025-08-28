@@ -29,6 +29,22 @@ def display_all_command_num() -> int | None:
     print(f'The total number of unique commands is: {len(command_set)}')
     return
 
+def display_all_available_commands_in_cheatsheet() -> None:
+    yaml_data = import_data_from_yaml_file()
+    commands_name_set = set()
+
+    for command, details in yaml_data.items():
+        if command not in commands_name_set:
+            commands_name_set.add(command)
+            description = details['description']
+            examples = details['examples']
+            category = details['category']
+
+    for command_name in commands_name_set:
+        print(f'{command_name}')
+
+    return
+
 def display_all_command_categories_num() -> None:
     yaml_data = import_data_from_yaml_file()
     unique_command_categories = set()
@@ -43,9 +59,7 @@ def display_all_command_categories_num() -> None:
     print(f'The total number of categories is: {len(unique_command_categories)}')
     return
 
-
-def find_entered_command_in_imported_yaml_data(command_entered):
-    pass    
+   
 
 
 
