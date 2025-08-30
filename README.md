@@ -26,3 +26,4 @@ How to use this from the terminal:
 ![Displaying all commands in terminal](screenshots/display_all_commands.png)
 
 
+5. on running: python3 main.py categories -all, all the categories are displayed in the terminal
