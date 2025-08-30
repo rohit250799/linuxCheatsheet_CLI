@@ -22,9 +22,9 @@ def display_all_command_num() -> int | None:
     for command, details in yaml_data.items():
         if command not in command_set:
             command_set.add(command)
-            description = details['description']
-            examples = details['examples']
-            category = details['category']
+            # description = details['description']
+            # examples = details['examples']
+            # category = details['category']
 
     print(f'The total number of unique commands is: {len(command_set)}')
     return
@@ -35,13 +35,12 @@ def display_all_available_commands_in_cheatsheet() -> None:
 
     for command, details in yaml_data.items():
         if command not in commands_name_set:
-            commands_name_set.add(command)
             description = details['description']
-            examples = details['examples']
-            category = details['category']
+            command_and_description = (command, description)
+            commands_name_set.add(command_and_description)
 
-    for command_name in commands_name_set:
-        print(f'{command_name}')
+    for command_name, command_description in commands_name_set:
+        print(f'{command_name} - {command_description}')
 
     return
 
