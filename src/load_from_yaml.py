@@ -58,7 +58,18 @@ def display_all_command_categories_num() -> None:
     print(f'The total number of categories is: {len(unique_command_categories)}')
     return
 
-   
+def display_all_available_categories_in_cheatsheet() -> None:
+    yaml_data = import_data_from_yaml_file()
+    categories_name_set = set()
+
+    for category, details in yaml_data.items():
+        category_name = details['category']
+        categories_name_set.add(category_name)
+
+    for category in categories_name_set:
+        print(f'{category} \n')
+
+    return
 
 
 
