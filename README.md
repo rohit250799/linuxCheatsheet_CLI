@@ -15,8 +15,16 @@ Currently, the cheatsheet will focus on 5 commands, which are also the most comm
 
 As the project progresses, new commands will be appended to the cheatsheet CLI iteratively. 
 
+How to setup the project on your local (For Ubuntu distribution):
 
-How to use this from the terminal:
+1. If you want to contribute to the project, fork the repo and clone it in your local system (Prerequisite: Installed git)
+2. Once cloning is complete, open your IDE and move to the 'linuxCheatsheet_CLI' directory
+3. Activate the virtual environment using the command: source env/bin/activate from inside the 'linuxCheatsheet_CLI' directory
+4. Have a look at the requirements.txt file and install all of them recursively in your virtual environment
+5. Once its done, move to the 'src' directory and then run any of the below mentioned commands while maintaining the structure
+
+
+How to use this from the terminal (All of these below mentioned commands should be run from inside the src directory):
 
 1. on running: python3 main.py -h or python3 main.py --help, the user can get a generalised description about the CLI tool
 2. on running: python3 main.py commands from the terminal, the total number of commands stored in the cheatsheet is displayed
@@ -27,3 +35,8 @@ How to use this from the terminal:
 
 
 5. on running: python3 main.py categories -all, all the categories are displayed in the terminal
+
+6. To check if a particular command exists in the cheatsheet, enter: python3 main.py commands --search command_name. Replace the command name with 
+any command that you want to be searched.
+
+![Search for an existing command in cheatsheet](screenshots/check_for_existing_command.png)
