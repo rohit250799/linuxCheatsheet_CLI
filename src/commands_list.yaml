@@ -20,3 +20,9 @@ rm:
     - "rm test.txt  # delete file test.txt"
     - "rm -r testDir/ # delete testDir directory recursivey"
   category: "file management"
+
+mkdir:
+  description: "Create a directory"
+  examples:
+    - "mkdir test  # create directory test"
+  category: "file management"
