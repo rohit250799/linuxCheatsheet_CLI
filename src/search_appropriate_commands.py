@@ -19,14 +19,19 @@ def change_command_data() -> bool:
 def suggest_command(user_query_input: str) -> None:
     yaml_data: dict = import_data_from_yaml_file()
     suggestion_found = None
+    command_suggestions = []
+
 
     for command, details in yaml_data.items():
-        command_description = details['description']
-        command_category = details['category']
-        suggestion_found = re.findall(user_query_input, command_description)
-        if suggestion_found: 
-            print(f'A suggestion has been found: {command}')
-            return
+        command_description: str = details['description'].lower()
+        command_category: str = details['category']
+        suggestion_found = re.findall(user_query_input.lower(), command_description) or re.findall(user_query_input, command_category) or re.findall(user_query_input, command)
+        if suggestion_found: command_suggestions.append(command) 
+            
         
+    if command_suggestions: 
+        print(f'Suggestions have been found: {command_suggestions}')
+        return
+    
     print('A suggestion could not be found')    
     return suggestion_found
