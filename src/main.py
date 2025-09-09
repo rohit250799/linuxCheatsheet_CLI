@@ -28,8 +28,8 @@ if args.myCommand == 'commands':
     
     elif args.searchCommandByName:
         command_to_be_searched = args.searchCommandByName
-        search_command_by_name(command_to_be_searched)
-    print('\n Required data is available above')
+        command_existence = search_command_by_name(command_to_be_searched)
+    print(f'\n {command_existence}')
 
 elif args.myCommand == 'categories':
     display_all_command_categories_num()
