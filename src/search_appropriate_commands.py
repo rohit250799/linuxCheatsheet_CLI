@@ -36,9 +36,10 @@ def suggest_command(user_query_input: str) -> None:
     for query_word in user_query_input_words_list:
         for single_command_description in all_commands_description_list:
             if query_word in single_command_description:
-                print(f'The current single command description is: {single_command_description}') 
+                print(f'{query_word} found in single command description is: {single_command_description}') 
                 command_to_display = all_commands_description_list.index(single_command_description)
                 command_suggestions.append(command_to_display)
+                break
         # if query_word in all_commands_categories_list or query_word in all_commands_description_list: 
         #     command_to_display = all_commands_description_list(command_description)
         #     command_suggestions.append(command_to_display) 
