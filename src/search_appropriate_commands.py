@@ -1,5 +1,6 @@
 import re
 
+from collections import defaultdict
 from load_from_yaml import import_data_from_yaml_file
 
 def search_command_by_name(command_name_input: str) -> bool:
@@ -16,22 +17,36 @@ def search_command_by_name(command_name_input: str) -> bool:
 def change_command_data() -> bool:
     pass
 
-def suggest_command(user_query_input: str) -> None:
-    yaml_data: dict = import_data_from_yaml_file()
-    suggestion_found = None
-    command_suggestions = []
-
-
+def create_commands_and_description_dict(yaml_data: dict = import_data_from_yaml_file()) -> dict:
+    commands_and_description_dict = {}
     for command, details in yaml_data.items():
         command_description: str = details['description'].lower()
-        command_category: str = details['category']
-        suggestion_found = re.findall(user_query_input.lower(), command_description) or re.findall(user_query_input, command_category) or re.findall(user_query_input, command)
-        if suggestion_found: command_suggestions.append(command) 
-            
-        
-    if command_suggestions: 
-        print(f'Suggestions have been found: {command_suggestions}')
-        return
+        commands_and_description_dict[command] = command_description
     
-    print('A suggestion could not be found')    
-    return suggestion_found
+    return commands_and_description_dict
+
+def initialize_inverted_index():
+    commands_and_description_dict = create_commands_and_description_dict()
+
+    #building inverted index
+    inverted_index = defaultdict(list)
+
+    for command_name, command_description in commands_and_description_dict.items():
+        words = command_description.lower().split()
+        for word in set(words):
+            inverted_index[word].append(command_name)
+
+    return inverted_index
+
+def search_for_commands(user_query_input: str):
+    query_words = user_query_input.lower().split()
+    results = None
+    inverted_index = initialize_inverted_index()
+
+    for word in query_words:
+        if word in inverted_index:
+            if results is None: results = set(inverted_index[word])
+            else: results &= set(inverted_index[word])
+        else: return []
+
+    return list(results) if results else []

@@ -40,3 +40,12 @@ How to use this from the terminal (All of these below mentioned commands should 
 any command that you want to be searched.
 
 ![Search for an existing command in cheatsheet](screenshots/check_for_existing_command.png)
+
+7. To ask for suggestions on commands from the cheatsheet, enter: python3 main.py suggestions 'your input'. Replace your input with your actual input
+and command suggestions will be prompted out to the terminal. 
+Important: if your input is only 1 word, there is no need to enclose it in strings else if it is > 1 word, you have to enclose it in strings. 
+
+![Suggest command based on user's query](screenshots/suggest_command.png)
+
+As it can be seen in the above image, the commands are suggested to the user if even a part of the existing command's description matches with that of the
+user input. If there is no match, a message is printed to the terminal signalling that no matches have been found. 

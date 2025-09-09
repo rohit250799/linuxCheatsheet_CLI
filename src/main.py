@@ -2,7 +2,7 @@ import argparse
 import subprocess
 
 from load_from_yaml import display_all_command_categories_num, display_all_command_num, display_all_available_commands_in_cheatsheet, display_all_available_categories_in_cheatsheet
-from search_appropriate_commands import search_command_by_name, suggest_command
+from search_appropriate_commands import search_command_by_name, search_for_commands
 
 parser = argparse.ArgumentParser(prog='Linux CLI cheatsheet', description='display a linux command cheatsheet')
 subparsers = parser.add_subparsers(dest='myCommand', required=True)
@@ -39,6 +39,7 @@ elif args.myCommand == 'categories':
     print('\n Required data is available above')    
 
 elif args.myCommand == 'suggestions':
-    suggest_command(user_query_input=args.s)
+    searching_result = search_for_commands(user_query_input=args.s)
+    print(searching_result) if searching_result else print(f'No suggestions have been found for your query: {args.s}')
     print('\n The required data has been displayed above')
 
