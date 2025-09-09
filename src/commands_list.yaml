@@ -26,3 +26,15 @@ mkdir:
   examples:
     - "mkdir test  # create directory test"
   category: "file management"
+
+rmdir:
+  description: "Delete a directory"
+  examples:
+    - "rmdir test  # create directory test"
+  category: "file management"
+
+amdir:
+  description: "Testing"
+  examples:
+    - "test onSomething  # dummy command for testing"
+  category: "dummy command"
