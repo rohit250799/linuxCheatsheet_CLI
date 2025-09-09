@@ -3,19 +3,40 @@ import re
 from collections import defaultdict
 from load_from_yaml import import_data_from_yaml_file
 
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.endOfWord = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word) -> None:
+        cur = self.root
+        for c in word:
+            if c not in cur.children: cur.children[c] = TrieNode()
+            cur = cur.children[c]
+        cur.endOfWord = True
+
+    def search(self, word) -> bool:
+        cur = self.root
+        for c in word:
+            if c not in cur.children: return False
+            cur = cur.children[c]
+        return cur.endOfWord
+    
+
 def search_command_by_name(command_name_input: str) -> bool:
     yaml_data = import_data_from_yaml_file()
+    commands_trie = Trie()
 
     for command in yaml_data:
-        if command_name_input == command: 
-            print('Command has been found in the cheatsheet!')
-            return True
+        commands_trie.insert(command)
 
-    print('Command not found in the cheatsheet!')
-    return False
+    command_existence: bool = commands_trie.search(command_name_input)
+    return True if command_existence else False
 
-def change_command_data() -> bool:
-    pass
 
 def create_commands_and_description_dict(yaml_data: dict = import_data_from_yaml_file()) -> dict:
     commands_and_description_dict = {}
@@ -25,7 +46,7 @@ def create_commands_and_description_dict(yaml_data: dict = import_data_from_yaml
     
     return commands_and_description_dict
 
-def initialize_inverted_index():
+def initialize_inverted_index() -> dict:
     commands_and_description_dict = create_commands_and_description_dict()
 
     #building inverted index
@@ -38,7 +59,7 @@ def initialize_inverted_index():
 
     return inverted_index
 
-def search_for_commands(user_query_input: str):
+def search_for_commands(user_query_input: str) -> list:
     query_words = user_query_input.lower().split()
     results = None
     inverted_index = initialize_inverted_index()
