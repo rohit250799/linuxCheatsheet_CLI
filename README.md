@@ -49,3 +49,12 @@ Important: if your input is only 1 word, there is no need to enclose it in strin
 
 As it can be seen in the above image, the commands are suggested to the user if even a part of the existing command's description matches with that of the
 user input. If there is no match, a message is printed to the terminal signalling that no matches have been found. 
+
+8. In case a command does not exist in the cheatsheet, the user also has the choice to search for the command in all the manual pages. To do so,
+the user first has to search for the commands suggestion using the command:  python3 main.py suggestions 'user query' - replace user query with the 
+actual query
+
+Now, if suggestions are not found in the cheatsheet, the terminal will prompt you to enter 1 in order to search for suggestions from manual pages. On 
+entering 1, the query will be searched from among the manual page command entries and all matches will be displayed to the terminal directly. 
+
+![Search for command in man pages](screenshots/search_suggestions_using_man.png)
