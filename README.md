@@ -58,3 +58,6 @@ Now, if suggestions are not found in the cheatsheet, the terminal will prompt yo
 entering 1, the query will be searched from among the manual page command entries and all matches will be displayed to the terminal directly. 
 
 ![Search for command in man pages](screenshots/search_suggestions_using_man.png)
+
+9. To check the current ip address (v4 and v6), you can use these commands: python3 main.py network ipaddress (for ipv4 address - inet) and the the same 
+command with -v6 flag to display the v6 version: python3 main.py network ipaddress -v6 (for ipv6 address - ipv6)
