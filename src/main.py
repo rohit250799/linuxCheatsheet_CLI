@@ -4,6 +4,7 @@ import sys
 from load_from_yaml import display_all_command_categories_num, display_all_command_num, display_all_available_commands_in_cheatsheet, display_all_available_categories_in_cheatsheet
 from search_appropriate_commands import search_command_by_name, search_for_commands
 from subprocesses_management import search_command_using_man, display_current_ip_address, display_current_ip_v6_address
+from network_management import find_nearest_subnet_number
 
 parser = argparse.ArgumentParser(prog='Linux CLI cheatsheet', description='display a linux command cheatsheet')
 subparsers = parser.add_subparsers(dest='myCommand', required=True)
@@ -21,6 +22,9 @@ parser_suggestions.add_argument('s', help='Display suggestions in brief')
 parser_networking = subparsers.add_parser('network', help='Required to perform networking tasks')
 parser_networking.add_argument('ipaddress', help='Display the current IPv4 address of the user')
 parser_networking.add_argument('-v6', '--ipv6', action='store_true', help='DIsplay the current IPv6 address of the user', dest='ipaddressv6')
+
+parser_networking.add_argument('subnetcalculate', action='store_true', help='Calculate the subnet for the provided value')
+parser_networking.add_argument('-smask', '--subnetmask', help='stores the subnet mask as input', dest='smaskValue')
 
 args = parser.parse_args()    
 
@@ -59,10 +63,16 @@ elif args.myCommand == 'suggestions':
             sys.exit(0)
 
 elif args.myCommand == 'network':
+    current_ipv6_address = display_current_ip_v6_address()
+    current_ip_address = display_current_ip_address()
     if args.ipaddress and args.ipaddressv6: 
-        print(f'The current ipv6 address (inetv6) is: {display_current_ip_v6_address()}')
+        print(f'The current ipv6 address (inetv6) is: {current_ipv6_address}')
         sys.exit(0)
     else:
-        print(f'The current ipv4 address (inet) is: {display_current_ip_address()}')
+        print(f'The current ipv4 address (inet) is: {current_ip_address}')
+        if args.subnetcalculate:
+            print(find_nearest_subnet_number())
+            if args.smaskValue:
+                print(f'The subnet value is: {args.smaskValue}')
         sys.exit(0)
 
