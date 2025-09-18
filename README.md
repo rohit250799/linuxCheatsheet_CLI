@@ -61,3 +61,5 @@ entering 1, the query will be searched from among the manual page command entrie
 
 9. To check the current ip address (v4 and v6), you can use these commands: python3 main.py network ipaddress (for ipv4 address - inet) and the the same 
 command with -v6 flag to display the v6 version: python3 main.py network ipaddress -v6 (for ipv6 address - ipv6)
+
+![Search for the current ip address](screenshots/current_ip_address.png)
