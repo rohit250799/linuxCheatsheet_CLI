@@ -4,7 +4,7 @@ import sys
 from load_from_yaml import display_all_command_categories_num, display_all_command_num, display_all_available_commands_in_cheatsheet, display_all_available_categories_in_cheatsheet
 from search_appropriate_commands import search_command_by_name, search_for_commands
 from subprocesses_management import search_command_using_man, display_current_ip_address, display_current_ip_v6_address
-from network_management import find_nearest_subnet_number
+from network_management import find_nearest_subnet_number, find_network_id_class, calculate_free_bits_for_network
 
 parser = argparse.ArgumentParser(prog='Linux CLI cheatsheet', description='display a linux command cheatsheet')
 subparsers = parser.add_subparsers(dest='myCommand', required=True)
@@ -24,7 +24,11 @@ parser_networking.add_argument('ipaddress', help='Display the current IPv4 addre
 parser_networking.add_argument('-v6', '--ipv6', action='store_true', help='DIsplay the current IPv6 address of the user', dest='ipaddressv6')
 
 parser_networking.add_argument('subnetcalculate', action='store_true', help='Calculate the subnet for the provided value')
-parser_networking.add_argument('-smask', '--subnetmask', help='stores the subnet mask as input', dest='smaskValue')
+parser_networking.add_argument('-nid', '--networkid', help='stores the network id provided as input', dest='networkId')
+parser_networking.add_argument('-smask', '--subnetmask', default='24', type='int',     
+                               choices=['16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32'], 
+                               help='stores the subnet mask as input', dest='smaskValue')
+parser_networking.add_argument('-snum', '--subnetnumber', help='stores the number of subnets that are to be created', dest='newSubnetNum')
 
 args = parser.parse_args()    
 
@@ -69,10 +73,22 @@ elif args.myCommand == 'network':
         print(f'The current ipv6 address (inetv6) is: {current_ipv6_address}')
         sys.exit(0)
     else:
-        print(f'The current ipv4 address (inet) is: {current_ip_address}')
-        if args.subnetcalculate:
-            print(find_nearest_subnet_number())
-            if args.smaskValue:
-                print(f'The subnet value is: {args.smaskValue}')
-        sys.exit(0)
+        #print(f'The current ipv4 address (inet) is: {current_ip_address}')
+        # if args.subnetcalculate and args.smaskValue:
+        #     print(find_nearest_subnet_number(current_ip_address, args.smaskValue))
+        #     sys.exit(0)
+        # else:
+        #     print(f'The smaskvalue was not provided, so the smask_value default is: {args.smaskValue}')
 
+        if args.subnetcalculate:
+            if args.networkId and args.smaskValue and args.newSubnetNum:
+                print(find_network_id_class(args.networkId))
+                print(calculate_free_bits_for_network(args.smaskValue))
+                sys.exit(0)
+            else:
+                print('Incomplete data is provided')
+                sys.exit(0)
+
+        else: 
+            print('Shutting the system')
+            sys.exit(0)
