@@ -1,10 +1,11 @@
 from subprocesses_management import display_current_ip_address
 import ipaddress
 
-def find_v4_or_v6(network_id: str) -> str:
+def find_v4_or_v6(network_id: str = display_current_ip_address()) -> str:
+    if not network_id: return 'Invalid network id'
     if isinstance(ipaddress.ip_network(network_id), ipaddress.IPv4Network): return 'v4'
     elif isinstance(ipaddress.ip_network(network_id), ipaddress.IPv6Network): return 'v6'
-    else: raise ValueError('An incorrect value has been ised') 
+    else: raise ValueError('An incorrect value has been used') 
 
 def find_network_id_class(network_id) -> str:
     network_id_first_octet_list:list = []
