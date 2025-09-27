@@ -4,6 +4,7 @@ import sys
 from load_from_yaml import display_all_command_categories_num, display_all_command_num, display_all_available_commands_in_cheatsheet, display_all_available_categories_in_cheatsheet
 from search_appropriate_commands import search_command_by_name, search_for_commands
 from subprocesses_management import search_command_using_man, display_current_ip_address, display_current_ip_v6_address
+from network_management import find_nearest_subnet_number, find_network_id_class, calculate_free_bits_for_network, find_v4_or_v6
 
 parser = argparse.ArgumentParser(prog='Linux CLI cheatsheet', description='display a linux command cheatsheet')
 subparsers = parser.add_subparsers(dest='myCommand', required=True)
@@ -19,10 +20,19 @@ parser_suggestions = subparsers.add_parser('suggestions', help='Suggest commands
 parser_suggestions.add_argument('s', help='Display suggestions in brief')
 
 parser_networking = subparsers.add_parser('network', help='Required to perform networking tasks')
-parser_networking.add_argument('ipaddress', help='Display the current IPv4 address of the user')
-parser_networking.add_argument('-v6', '--ipv6', action='store_true', help='DIsplay the current IPv6 address of the user', dest='ipaddressv6')
+network_command_subparsers = parser_networking.add_subparsers(dest='network_commands', help='Subcommands for the network command')
 
-args = parser.parse_args()    
+ip_address_parser = network_command_subparsers.add_parser('ipaddress', help='Display the current ip address of the user')
+ip_address_parser.add_argument('-v', '--version', default=4, type=int, choices=[4, 6], help='Stores the version if ip address', dest='version')
+
+subnet_calculate_parser = network_command_subparsers.add_parser('subnet', help='Calculate subnet based on user input')
+subnet_calculate_parser.add_argument('-nid', '--networkid', help='stores the network id provided as input', dest='networkId')
+subnet_calculate_parser.add_argument('-smask', '--subnetmask', type=int,     
+                               choices=[16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32], 
+                               help='stores the subnet mask as input', dest='smaskValue')
+subnet_calculate_parser.add_argument('-snum', '--subnetnumber', help='stores the number of subnets that are to be created', dest='newSubnetNum')
+
+args = parser.parse_args()
 
 if args.myCommand == 'commands':
     display_all_command_num()
@@ -36,14 +46,14 @@ if args.myCommand == 'commands':
         command_existence = search_command_by_name(command_to_be_searched)
     print(f'\n {command_existence}')
 
-elif args.myCommand == 'categories':
+if args.myCommand == 'categories':
     display_all_command_categories_num()
     if args.allCategories:
         print('The abvailable categories are: \n')
         display_all_available_categories_in_cheatsheet()
     print('\n Required data is available above')    
 
-elif args.myCommand == 'suggestions':
+if args.myCommand == 'suggestions':
     searching_result = search_for_commands(user_query_input=args.s)
     if searching_result: 
         print(searching_result)
@@ -58,11 +68,38 @@ elif args.myCommand == 'suggestions':
             print('You have exit the command line!')
             sys.exit(0)
 
-elif args.myCommand == 'network':
-    if args.ipaddress and args.ipaddressv6: 
-        print(f'The current ipv6 address (inetv6) is: {display_current_ip_v6_address()}')
-        sys.exit(0)
-    else:
-        print(f'The current ipv4 address (inet) is: {display_current_ip_address()}')
-        sys.exit(0)
+if args.myCommand == 'network':
+    current_ipv6_address = display_current_ip_v6_address()
+    current_ip_address = display_current_ip_address()
+
+    if args.network_commands == 'ipaddress':
+
+        if args.version == 6 and find_v4_or_v6(current_ipv6_address) == 'v6': print(f'The current ipv6 address is: {current_ipv6_address}')
+        else: 
+            print(f'The current ipv4 address is: {current_ip_address}')
+            print(f'The current ip address class is: {find_network_id_class(current_ip_address)}')
+
+    elif args.network_commands == 'subnet':
+        print('Successfully entered the subnet code block')
+        if args.networkId:
+            print(f'The network type is: {find_v4_or_v6(args.networkId)}')
+        if args.smaskValue: print(f'The smask value is: {args.smaskValue}')
+        if args.newSubnetNum: print(f'The new subnet number is: {args.newSubnetNum}')
+        else:
+            print('Incomplete data is provided')
+            sys.exit(0)
+
+else: 
+    print('The program will end!')
+    sys.exit(1)
+
+
+
+
+
+
+
+
+
+
 
