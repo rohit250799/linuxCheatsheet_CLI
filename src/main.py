@@ -4,7 +4,7 @@ import sys
 from load_from_yaml import display_all_command_categories_num, display_all_command_num, display_all_available_commands_in_cheatsheet, display_all_available_categories_in_cheatsheet
 from search_appropriate_commands import search_command_by_name, search_for_commands
 from subprocesses_management import search_command_using_man, display_current_ip_address, display_current_ip_v6_address
-from network_management import find_nearest_subnet_number, find_network_id_class, calculate_free_bits_for_network, find_v4_or_v6
+from network_management import find_network_id_class, calculate_new_subnet_mask, find_v4_or_v6
 
 parser = argparse.ArgumentParser(prog='Linux CLI cheatsheet', description='display a linux command cheatsheet')
 subparsers = parser.add_subparsers(dest='myCommand', required=True)
@@ -27,10 +27,10 @@ ip_address_parser.add_argument('-v', '--version', default=4, type=int, choices=[
 
 subnet_calculate_parser = network_command_subparsers.add_parser('subnet', help='Calculate subnet based on user input')
 subnet_calculate_parser.add_argument('-nid', '--networkid', help='stores the network id provided as input', dest='networkId')
-subnet_calculate_parser.add_argument('-smask', '--subnetmask', type=int,     
-                               choices=[16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32], 
+subnet_calculate_parser.add_argument('-smask', '--subnetmask',     
+                               choices=['16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32'], 
                                help='stores the subnet mask as input', dest='smaskValue')
-subnet_calculate_parser.add_argument('-snum', '--subnetnumber', help='stores the number of subnets that are to be created', dest='newSubnetNum')
+subnet_calculate_parser.add_argument('-snum', '--subnetnumber', type=int, help='stores the number of subnets that are to be created', dest='newSubnetNum')
 
 args = parser.parse_args()
 
@@ -81,13 +81,19 @@ if args.myCommand == 'network':
 
     elif args.network_commands == 'subnet':
         print('Successfully entered the subnet code block')
-        if args.networkId:
+        if args.networkId and args.smaskValue and args.newSubnetNum:
             print(f'The network type is: {find_v4_or_v6(args.networkId)}')
-        if args.smaskValue: print(f'The smask value is: {args.smaskValue}')
-        if args.newSubnetNum: print(f'The new subnet number is: {args.newSubnetNum}')
+            print(f'The smask value is: {args.smaskValue}')
+            print(f'The new subnet number is: {args.newSubnetNum}')
+
+            new_network_id = args.networkId + '/' + args.smaskValue
+
+            new_subnet_data = calculate_new_subnet_mask(new_network_id, args.newSubnetNum)
+            print(new_subnet_data)
+            sys.exit(0) 
         else:
             print('Incomplete data is provided')
-            sys.exit(0)
+            sys.exit(1)
 
 else: 
     print('The program will end!')
