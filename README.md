@@ -62,5 +62,9 @@ entering 1, the query will be searched from among the manual page command entrie
 9. To check the current ip address (v4 and v6), you can use these commands: python3 main.py network ipaddress (for ipv4 address - inet) and the the same 
 command with -v6 flag to display the v6 version: python3 main.py network ipaddress -v 6 (for ipv6 address - ipv6)
 
-![Search for the current ip address](screenshots/current_ip_address.png)
+10. To try out the subnetting table calculation, you can provide the newtwork id, current subnet mask as CIDR value and the number of subnets to be created
+as input. The output will be displayed in the terminal. Just use this command: python3 main.py network subnet -nid 124.4.16.0 -smask 19 -snum 4 (where 'nid' = 
+network id, smask = current subnet mask in CIDR format and snum = number of subnets to be created. You can change all this and try out with different values)
+
+![Subnet table calculation](screenshots/subnet_table_calculation_result.png)
 
