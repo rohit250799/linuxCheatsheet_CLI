@@ -4,7 +4,7 @@ import sys
 from load_from_yaml import display_all_command_categories_num, display_all_command_num, display_all_available_commands_in_cheatsheet, display_all_available_categories_in_cheatsheet
 from search_appropriate_commands import search_command_by_name, search_for_commands
 from subprocesses_management import search_command_using_man, display_current_ip_address, display_current_ip_v6_address
-from network_management import find_network_id_class, calculate_new_subnet_mask, find_v4_or_v6
+from network_management import find_network_id_class, calculate_new_subnet_mask, find_v4_or_v6, print_usable_hosts
 
 parser = argparse.ArgumentParser(prog='Linux CLI cheatsheet', description='display a linux command cheatsheet')
 subparsers = parser.add_subparsers(dest='myCommand', required=True)
@@ -90,6 +90,8 @@ if args.myCommand == 'network':
 
             new_subnet_data = calculate_new_subnet_mask(new_network_id, args.newSubnetNum)
             print(new_subnet_data)
+
+            print(f'The usable hosts are: {print_usable_hosts(args.networkId, args.smaskValue)}')
             sys.exit(0) 
         else:
             print('Incomplete data is provided')

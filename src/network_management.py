@@ -51,7 +51,7 @@ def calculate_new_subnet_mask(network_id: str, new_subnet_number: int):
 
     total_addresses_in_network = 2 ** free_bits
 
-    hosts_per_subnet = total_addresses_in_network / new_subnet_number
+    hosts_per_subnet: int = total_addresses_in_network / new_subnet_number
 
     if hosts_per_subnet in subnet_mapping_dict:
         subnet_column = subnet_mapping_dict.get(hosts_per_subnet) 
@@ -64,6 +64,32 @@ def calculate_new_subnet_mask(network_id: str, new_subnet_number: int):
     else: 
         print('No matching values have been found')
         return ''
+    
+def print_usable_hosts(network_id: str, smask: str) -> list:
+    normalized_addr = ".".join(str(int(part)) for part in network_id.split("."))
+    original_network = ipaddress.ip_network(f"{normalized_addr}/{smask}", strict=False)
+    print(f"The original network is: {original_network}")
+
+    smask = int(smask)
+    new_prefix = original_network.prefixlen + (smask - 1).bit_length()
+    if new_prefix >= 33:
+        raise ValueError("Too many subnets requested!")
+
+    print(f"The new subnet mask is: /{new_prefix}")
+
+    new_subnets = list(original_network.subnets(new_prefix=new_prefix))
+    print(f"Total subnets created: {len(new_subnets)}")
+
+    # Printing details for each subnet
+    for i, subnet in enumerate(new_subnets, 1):
+        hosts = list(subnet.hosts())
+        print(f"\nSubnet {i}: {subnet}")
+        print(f"  Network ID: {subnet.network_address}")
+        print(f"  Broadcast: {subnet.broadcast_address}")
+        print(f"  Total addresses: {subnet.num_addresses}")
+        print(f"  Usable hosts: {hosts if hosts else 'None'}")
+
+
 
 def find_nearest_subnet_number(ipaddress, smask_value):
     #current_ip_address = display_current_ip_address()

@@ -68,3 +68,5 @@ network id, smask = current subnet mask in CIDR format and snum = number of subn
 
 ![Subnet table calculation](screenshots/subnet_table_calculation_result.png)
 
+Now, the Usable hosts list is also displayed along with the subnetting table calculation - with usable host addresses for each new subnet created. 
+
