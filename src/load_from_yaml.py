@@ -1,19 +1,18 @@
-import yaml
+import yaml, os
 
-def import_data_from_yaml_file() -> str:
+def import_data_from_yaml_file() -> dict | None:
+    #filename = 'commands_list.yaml'
+    filename = os.path.join(os.path.dirname(__file__), "commands_list.yaml")
     try:
-        with open('commands_list.yaml', 'r') as file:
+        with open(filename, "r") as file:
             imported_yaml_data = yaml.load(file, Loader=yaml.FullLoader)
-
         return imported_yaml_data
-    
     except FileNotFoundError:
-        print(f"Error: {file} not found. Please ensure file: {file} exists")
-        return
-    
+        print(f"Error: {filename} not found. Please ensure file exists.")
+        return None
     except yaml.YAMLError as e:
         print(f"Error parsing YAML file: {e}")
-        return
+        return None
     
 def display_all_command_num() -> int | None:
     yaml_data = import_data_from_yaml_file()
