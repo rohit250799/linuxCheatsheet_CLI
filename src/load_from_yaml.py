@@ -1,7 +1,6 @@
 import yaml, os
 
 def import_data_from_yaml_file() -> dict | None:
-    #filename = 'commands_list.yaml'
     filename = os.path.join(os.path.dirname(__file__), "commands_list.yaml")
     try:
         with open(filename, "r") as file:
