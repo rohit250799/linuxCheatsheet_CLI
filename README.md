@@ -70,3 +70,8 @@ network id, smask = current subnet mask in CIDR format and snum = number of subn
 
 Now, the Usable hosts list is also displayed along with the subnetting table calculation - with usable host addresses for each new subnet created. 
 
+![Usable hosts list](screenshots/usable_hosts_list.png)
+
+11. To try out with the unit tests for functions, first navigate to the root directory (parent directory of src directory). From there, enter the following
+command: python3 -m unittest discover -s tests
+
